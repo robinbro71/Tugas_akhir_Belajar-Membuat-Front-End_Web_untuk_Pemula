@@ -1,5 +1,7 @@
-const storageKey = 'STORAGE_KEY'
+const storageKey = 'Bookshelf_Apps'
 const submitData = document.getElementById('inputBook')
+// const RENDER_EVENT = 'render-book';
+// const book = [];
 
 function checkStorage() {
     if ( typeof (Storage) !== 'undefined') {
@@ -27,10 +29,11 @@ function putBooklist(data) {
 function generateId() {
     return +new Date();
 }
+// document.dispatchEvent(new Event(RENDER_EVENT))
 
 submitData.addEventListener('submit', function (event) {
     event.preventDefault();
-    const generatedId = generateId()
+    const generatedId = generateId();
     const inputJudul = document.getElementById('inputBookTitle').value;
     const inputPenulis = document.getElementById('inputBookAuthor').value;
     const inputTahun = document.getElementById('inputBookYear').value;
@@ -44,8 +47,16 @@ submitData.addEventListener('submit', function (event) {
         isComplete: inputIsComplete
     }
     putBooklist(userData)
+    // book.push(userData)
     // renderBookList();
+    makeBookList();
 })
+function makeBookList(bookParameter) {
+    const countainer = document.getElementById('incompleteBookshelfList')
+    const article = document.createElement('article');
+    article.classList.add('book_item');
+    countainer.appendChild(article)
+}
 
 
 
