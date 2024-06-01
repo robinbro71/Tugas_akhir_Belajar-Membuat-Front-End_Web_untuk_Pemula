@@ -52,10 +52,10 @@ submitData.addEventListener('submit', function (event) {
     makeBookList(userData);
 })
 function makeBookList(bookParameter) {
-    const container = document.getElementById('incompleteBookshelfList')
+    const containerIncompleteBook = document.getElementById('incompleteBookshelfList')
+    const containerCompletedBook = document.getElementById('completeBookshelfList')
     const article = document.createElement('article');
     article.classList.add('book_item');
-    container.appendChild(article);
     
     const bookTitle = document.createElement('h3');
     bookTitle.innerText = bookParameter.title;
@@ -71,11 +71,19 @@ function makeBookList(bookParameter) {
 
     const green = document.createElement('button');
     green.classList.add('green');
-    green.innerText = 'Selesai dibaca';
 
     const red = document.createElement('button');
     red.classList.add('red');
-    red.innerText = 'Belum selesai dibaca';
+
+    if (bookParameter.isComplete) {
+        containerCompletedBook.appendChild(article);
+        green.innerText = 'Belum selesai di Baca';
+        red.innerText = 'Hapus buku';
+    } else {
+        containerIncompleteBook.appendChild(article);
+        green.innerText = 'Selesai dibaca';
+        red.innerText = 'Hapus buku';
+    }    
 
     article.appendChild(bookTitle); 
     article.appendChild(penulis); 
