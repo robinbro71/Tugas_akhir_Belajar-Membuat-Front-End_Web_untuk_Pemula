@@ -49,13 +49,41 @@ submitData.addEventListener('submit', function (event) {
     putBooklist(userData)
     // book.push(userData)
     // renderBookList();
-    makeBookList();
+    makeBookList(userData);
 })
 function makeBookList(bookParameter) {
-    const countainer = document.getElementById('incompleteBookshelfList')
+    const container = document.getElementById('incompleteBookshelfList')
     const article = document.createElement('article');
     article.classList.add('book_item');
-    countainer.appendChild(article)
+    container.appendChild(article);
+    
+    const bookTitle = document.createElement('h3');
+    bookTitle.innerText = bookParameter.title;
+
+    const penulis = document.createElement('p');
+    penulis.innerText = bookParameter.author;
+
+    const tahun = document.createElement('p');
+    tahun.innerText = bookParameter.year;
+
+    const actionButton = document.createElement('div');
+    actionButton.classList.add('action')
+
+    const green = document.createElement('button');
+    green.classList.add('green');
+    green.innerText = 'Selesai dibaca';
+
+    const red = document.createElement('button');
+    red.classList.add('red');
+    red.innerText = 'Belum selesai dibaca';
+
+    article.appendChild(bookTitle); 
+    article.appendChild(penulis); 
+    article.appendChild(tahun); 
+    article.appendChild(actionButton);
+    actionButton.appendChild(green);
+    actionButton.appendChild(red);
+
 }
 
 
