@@ -1,8 +1,11 @@
+// ctreate constanta start
 const storageKey = 'Bookshelf_Apps'
 const submitData = document.getElementById('inputBook')
-// const RENDER_EVENT = 'render-book';
+const RENDER_EVENT = 'render-book';
 // const book = [];
+// create constanta end
 
+// create function start
 function checkStorage() {
     if ( typeof (Storage) !== 'undefined') {
         return true
@@ -29,29 +32,9 @@ function putBooklist(data) {
 function generateId() {
     return +new Date();
 }
-// document.dispatchEvent(new Event(RENDER_EVENT))
 
-submitData.addEventListener('submit', function (event) {
-    event.preventDefault();
-    const generatedId = generateId();
-    const inputJudul = document.getElementById('inputBookTitle').value;
-    const inputPenulis = document.getElementById('inputBookAuthor').value;
-    const inputTahun = document.getElementById('inputBookYear').value;
-    const inputIsComplete = document.getElementById('inputBookIsComplete').checked;
-
-    const userData = {
-        id: generatedId,
-        title: inputJudul,
-        author: inputPenulis,
-        year: inputTahun,
-        isComplete: inputIsComplete
-    }
-    putBooklist(userData)
-    // book.push(userData)
-    // renderBookList();
-    makeBookList(userData);
-})
 function makeBookList(bookParameter) {
+    // const container = document.querySelector(".book_list")
     const containerIncompleteBook = document.getElementById('incompleteBookshelfList')
     const containerCompletedBook = document.getElementById('completeBookshelfList')
     const article = document.createElement('article');
@@ -77,6 +60,57 @@ function makeBookList(bookParameter) {
 
     if (bookParameter.isComplete) {
         containerCompletedBook.appendChild(article);
+        containerCompletedBook.prepend(article);
+        green.innerText = 'Belum selesai di Baca';
+        red.innerText = 'Hapus buku';
+    } else {
+        containerIncompleteBook.appendChild(article);
+        containerIncompleteBook.prepend(article);
+        green.innerText = 'Selesai dibaca';
+        red.innerText = 'Hapus buku';
+    }    
+
+    // container.prepend(article)
+    article.appendChild(bookTitle); 
+    article.appendChild(penulis); 
+    article.appendChild(tahun); 
+    article.appendChild(actionButton);
+    actionButton.appendChild(green);
+    actionButton.appendChild(red);
+    
+
+}
+
+function renderBookList(objectDataParameter) {
+    // const stringData = objectDataParameter;
+    const stringData = JSON.parse(objectDataParameter)
+    stringData.forEach(function(book) {
+    
+    const containerIncompleteBook = document.getElementById('incompleteBookshelfList')
+    const containerCompletedBook = document.getElementById('completeBookshelfList')
+    const article = document.createElement('article');
+    article.classList.add('book_item');
+    
+    const bookTitle = document.createElement('h3');
+    bookTitle.innerText = book.title;
+
+    const penulis = document.createElement('p');
+    penulis.innerText = book.author;
+
+    const tahun = document.createElement('p');
+    tahun.innerText = book.year;
+
+    const actionButton = document.createElement('div');
+    actionButton.classList.add('action')
+
+    const green = document.createElement('button');
+    green.classList.add('green');
+
+    const red = document.createElement('button');
+    red.classList.add('red');
+
+    if (book.isComplete) {
+        containerCompletedBook.appendChild(article);
         green.innerText = 'Belum selesai di Baca';
         red.innerText = 'Hapus buku';
     } else {
@@ -91,8 +125,41 @@ function makeBookList(bookParameter) {
     article.appendChild(actionButton);
     actionButton.appendChild(green);
     actionButton.appendChild(red);
-
+    })
 }
+// create function end
+
+// create event handler start
+document.addEventListener('DOMContentLoaded', function() {
+    checkStorage();
+    renderBookList(localStorage.getItem('Bookshelf_Apps'))
+})
+// document.dispatchEvent(new Event(RENDER_EVENT))
+
+submitData.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const generatedId = generateId();
+    const inputJudul = document.getElementById('inputBookTitle').value;
+    const inputPenulis = document.getElementById('inputBookAuthor').value;
+    const inputTahun = document.getElementById('inputBookYear').value;
+    const inputIsComplete = document.getElementById('inputBookIsComplete').checked;
+
+    const userData = {
+        id: generatedId,
+        title: inputJudul,
+        author: inputPenulis,
+        year: inputTahun,
+        isComplete: inputIsComplete
+    }
+    document.dispatchEvent(new Event(RENDER_EVENT))
+    putBooklist(userData)
+    // book.push(userData)
+    // renderBookList();
+    makeBookList(userData);
+
+})
+// create event handler end
+
 
 
 
