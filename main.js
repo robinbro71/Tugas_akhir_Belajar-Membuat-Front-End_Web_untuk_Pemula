@@ -2,7 +2,7 @@
 const storageKey = 'Bookshelf_Apps'
 const submitData = document.getElementById('inputBook')
 const RENDER_EVENT = 'render-book';
-// const book = [];
+const book = [];
 // create constanta end
 
 // create function start
@@ -24,7 +24,6 @@ function putBooklist(data) {
         }
         bookData.unshift(data);
         localStorage.setItem(storageKey, JSON.stringify(bookData))
-        //inconstruction
     }
 }
 
@@ -34,7 +33,6 @@ function generateId() {
 }
 
 function makeBookList(bookParameter) {
-    // const container = document.querySelector(".book_list")
     const containerIncompleteBook = document.getElementById('incompleteBookshelfList')
     const containerCompletedBook = document.getElementById('completeBookshelfList')
     const article = document.createElement('article');
@@ -54,87 +52,76 @@ function makeBookList(bookParameter) {
 
     const green = document.createElement('button');
     green.classList.add('green');
+    green.innerText = bookParameter.isComplete? 'Belum selesai di baca': 'selesai dibaca';
+    green.addEventListener('click', function() {
+        changeIsComplete(bookParameter.id)
+
+    })
 
     const red = document.createElement('button');
     red.classList.add('red');
+    red.innerText = 'Hapus buku'
+    red.addEventListener('click', function() {
+        removeBook(bookParameter.id);
+    })
 
     if (bookParameter.isComplete) {
         containerCompletedBook.appendChild(article);
-        containerCompletedBook.prepend(article);
-        green.innerText = 'Belum selesai di Baca';
-        red.innerText = 'Hapus buku';
     } else {
         containerIncompleteBook.appendChild(article);
-        containerIncompleteBook.prepend(article);
-        green.innerText = 'Selesai dibaca';
-        red.innerText = 'Hapus buku';
     }    
-
-    // container.prepend(article)
+    
+    actionButton.appendChild(green);
+    actionButton.appendChild(red);
     article.appendChild(bookTitle); 
     article.appendChild(penulis); 
     article.appendChild(tahun); 
     article.appendChild(actionButton);
-    actionButton.appendChild(green);
-    actionButton.appendChild(red);
-    
 
 }
 
-function renderBookList(objectDataParameter) {
-    // const stringData = objectDataParameter;
-    const stringData = JSON.parse(objectDataParameter)
-    stringData.forEach(function(book) {
-    
+function renderBookList() {
+    const storedBooks = JSON.parse(localStorage.getItem(storageKey)) || [];
     const containerIncompleteBook = document.getElementById('incompleteBookshelfList')
     const containerCompletedBook = document.getElementById('completeBookshelfList')
-    const article = document.createElement('article');
-    article.classList.add('book_item');
-    
-    const bookTitle = document.createElement('h3');
-    bookTitle.innerText = book.title;
+    containerIncompleteBook.innerHTML = '';
+    containerCompletedBook.innerHTML = '';
 
-    const penulis = document.createElement('p');
-    penulis.innerText = book.author;
-
-    const tahun = document.createElement('p');
-    tahun.innerText = book.year;
-
-    const actionButton = document.createElement('div');
-    actionButton.classList.add('action')
-
-    const green = document.createElement('button');
-    green.classList.add('green');
-
-    const red = document.createElement('button');
-    red.classList.add('red');
-
-    if (book.isComplete) {
-        containerCompletedBook.appendChild(article);
-        green.innerText = 'Belum selesai di Baca';
-        red.innerText = 'Hapus buku';
-    } else {
-        containerIncompleteBook.appendChild(article);
-        green.innerText = 'Selesai dibaca';
-        red.innerText = 'Hapus buku';
-    }    
-
-    article.appendChild(bookTitle); 
-    article.appendChild(penulis); 
-    article.appendChild(tahun); 
-    article.appendChild(actionButton);
-    actionButton.appendChild(green);
-    actionButton.appendChild(red);
+    storedBooks.forEach(book => {
+        makeBookList(book);
     })
+}
+
+function findBookIndex(bookId) {
+    return books.findIndex( book => book.id === bookId )
+}
+function changeIsComplete(bookId) {
+    const storedBooks = JSON.parse(localStorage.getItem(storageKey)) || [];
+    const bookIndex = storedBooks.findIndex(book => book.id === bookId)
+    if(bookIndex === -1) return;
+
+    storedBooks[bookIndex].isComplete = !storedBooks[bookIndex].isComplete
+    localStorage.setItem(storageKey, JSON.stringify(storedBooks));
+    renderBookList();
+}
+
+function removeBook(bookId) {
+    const storedBooks = JSON.parse(localStorage.getItem(storageKey)) || [];
+    const bookIndex = storedBooks.findIndex(book => book.id === bookId)
+    if(bookIndex === -1) return;
+
+    storedBooks.splice(bookIndex, 1)
+    localStorage.setItem(storageKey, JSON.stringify(storedBooks));
+    renderBookList();
 }
 // create function end
 
 // create event handler start
 document.addEventListener('DOMContentLoaded', function() {
-    checkStorage();
-    renderBookList(localStorage.getItem('Bookshelf_Apps'))
+    if(checkStorage()) {
+        renderBookList();
+    }
 })
-// document.dispatchEvent(new Event(RENDER_EVENT))
 
 submitData.addEventListener('submit', function (event) {
     event.preventDefault();
@@ -151,21 +138,7 @@ submitData.addEventListener('submit', function (event) {
         year: inputTahun,
         isComplete: inputIsComplete
     }
-    document.dispatchEvent(new Event(RENDER_EVENT))
     putBooklist(userData)
-    // book.push(userData)
-    // renderBookList();
-    makeBookList(userData);
-
+    book.push(userData)
+    renderBookList();
 })
-// create event handler end
-
-
-
-
-
-
-
-// localStorage.setItem('name', 'Robin');
-// console.log(localStorage.getItem('name'));
-// localStorage.removeItem('name')
