@@ -2,10 +2,13 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    
 }
 
 body, input, button {
     font-family: 'Open Sans', sans-serif;
+    background-color: black;
+    color: white
 }
 
 input, button {
@@ -17,7 +20,7 @@ input, button {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: cornflowerblue;
+    background-color: #333;
     color: white;
 }
 
@@ -33,13 +36,13 @@ main {
     display: flex;
     flex-direction: column;
     padding: 16px;
-    border: 1px solid black;
+    border: 1px solid #888;
     border-radius: 10px;
 }
 
 .input_section > h2 {
     text-align: center;
-    color: cornflowerblue;
+    color: white;
 }
 
 .input_section > form > .input {
@@ -47,7 +50,7 @@ main {
 }
 
 .input_section > form > button {
-    background-color: cornflowerblue;
+    background-color: #555;
     color: white;
     border: 0;
     border-radius: 5px;
@@ -70,7 +73,7 @@ main {
 
 
 .input_section > form > .input > label {
-    color: cornflowerblue;
+    color: white;
     font-weight: bold;
 }
 
@@ -81,7 +84,7 @@ main {
 }
 
 .input_section > form > .input_inline > label {
-    color: cornflowerblue;
+    color: white;
     font-weight: bold;
     margin-right: 10px;
 }
@@ -92,12 +95,12 @@ main {
     flex-direction: column;
     align-items: center;
     padding: 16px;
-    border: 1px solid black;
+    border: 1px solid #888;
     border-radius: 10px;
 }
 
 .search_section > h2 {
-    color: cornflowerblue;
+    color: white;
 }
 
 .search_section > form {
@@ -119,7 +122,7 @@ main {
 }
 
 .search_section > form > button {
-    background-color: cornflowerblue;
+    background-color: #555;
     color: white;
     border: 0;
     border-radius: 5px;
@@ -128,13 +131,13 @@ main {
 
 .book_shelf {
     margin: 16px 0 0 0;
-    border: 1px solid black;
+    border: 1px solid #888;
     padding: 16px;
     border-radius: 10px;
 }
 
 .book_shelf > h2 {
-    color: cornflowerblue;
+    color: white;
 }
 
 .book_shelf > .book_list {
@@ -143,7 +146,7 @@ main {
 
 .book_shelf > .book_list > .book_item {
     padding: 8px 16px 16px 16px;
-    border: 1px solid black;
+    border: 1px solid #888;
     border-radius: 5px;
     margin: 10px 0;
 }

@@ -3,6 +3,8 @@ const storageKey = 'Bookshelf_Apps'
 const submitData = document.getElementById('inputBook')
 const RENDER_EVENT = 'render-book';
 const book = [];
+const searchBook = document.getElementById('searchBook')
+const searchInput = document.getElementById('searchBookTitle')
 // create constanta end
 
 // create function start
@@ -80,8 +82,8 @@ function makeBookList(bookParameter) {
 
 }
 
-function renderBookList() {
-    const storedBooks = JSON.parse(localStorage.getItem(storageKey)) || [];
+function renderBookList(booksToRender = null) {
+    const storedBooks = booksToRender || JSON.parse(localStorage.getItem(storageKey)) || [];
     const containerIncompleteBook = document.getElementById('incompleteBookshelfList')
     const containerCompletedBook = document.getElementById('completeBookshelfList')
     containerIncompleteBook.innerHTML = '';
@@ -114,6 +116,14 @@ function removeBook(bookId) {
     localStorage.setItem(storageKey, JSON.stringify(storedBooks));
     renderBookList();
 }
+
+function searchBooks(keyword) {
+    const storedBooks = JSON.parse(localStorage.getItem(storageKey)) || [];
+    const filteredBooks = storedBooks.filter(book => 
+        book.title.toLowerCase().includes(keyword.toLowerCase())
+    );
+    renderBookList(filteredBooks);
+}
 // create function end
 
 // create event handler start
@@ -142,3 +152,10 @@ submitData.addEventListener('submit', function (event) {
     book.push(userData)
     renderBookList();
 })
+
+searchBook.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const searchKeyword = searchInput.value;
+    searchBooks(searchKeyword);
+})
+// create event handler end
