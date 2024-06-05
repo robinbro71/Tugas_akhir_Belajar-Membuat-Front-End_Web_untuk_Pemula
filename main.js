@@ -138,20 +138,31 @@ submitData.addEventListener('submit', function (event) {
     const generatedId = generateId();
     const inputJudul = document.getElementById('inputBookTitle').value;
     const inputPenulis = document.getElementById('inputBookAuthor').value;
-    const inputTahun = document.getElementById('inputBookYear').value;
+    const inputTahun = Number(document.getElementById('inputBookYear').value); // Convert to integer
     const inputIsComplete = document.getElementById('inputBookIsComplete').checked;
 
     const userData = {
         id: generatedId,
         title: inputJudul,
         author: inputPenulis,
-        year: inputTahun,
+        year: inputTahun, // Stored as an integer
         isComplete: inputIsComplete
     }
     putBooklist(userData)
     book.push(userData)
     renderBookList();
 })
+
+
+function userData (id, title, author, year, isComplete) {
+    return {
+        id,
+        title,
+        author,
+        year: parseInt(year),
+        isComplete
+    }
+}
 
 searchBook.addEventListener('submit', function (event) {
     event.preventDefault();
